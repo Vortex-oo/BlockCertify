@@ -34,14 +34,14 @@ export default function Home() {
           <div className="flex flex-col items-center gap-10 ">
             <Link
               href="/create"
-              className=" font-mono text-5xl border-2 border-orange-500 text-orange-500 px-16 py-6 rounded-2xl text-center  font-bold hover:bg-orange-500 hover:text-black transition"
+              className=" font-mono text-5xl border-2 border-orange-500 text-orange-500 px-16 py-6 rounded-2xl text-center  font-bold hover:bg-orange-500 hover:text-black transition w-full"
             >
-              Get Your Uni Verified
+              Add Your University
             </Link>
 
             <Link
               href="/verify"
-              className=" font-mono text-5xl border-2 border-fuchsia-500 text-fuchsia-500 px-10 py-6 rounded-2xl text-center  font-bold hover:bg-fuchsia-500 hover:text-black transition"
+              className=" font-mono text-5xl border-2 border-fuchsia-500 text-fuchsia-500 px-10 py-6 rounded-2xl text-center  font-bold hover:bg-fuchsia-500 hover:text-black transition w-full"
             >
               Verify Your Certificate
             </Link>
@@ -50,11 +50,28 @@ export default function Home() {
 
       </div>
 
-      <footer className="w-full h-20 flex items-center justify-center mt-20 absolute bottom-0">
-        <p className="text-white text-center">
-          &copy; 2025 BlockCertify. All rights reserved.
-        </p>
-      </footer>
+ <footer className="w-full border-t border-gray-700 bg-black/30 mt-20 absolute bottom-0">
+  <div className="container mx-auto flex flex-col md:flex-row items-center justify-between gap-4 py-6 px-8 text-gray-400">
+    
+    {/* Left Side */}
+    <p className="text-sm">
+      Created By DEBJIT SEN | <a href="https://vortex-protfolio.vercel.app/" className="font-semibold text-white hover:underline transition">Hire Me</a>
+    </p>
+    
+    {/* Center */}
+    <p className="text-sm">
+      &copy; {new Date().getFullYear()} BlockCertify. All rights reserved.
+    </p>
+    
+    {/* Right Side */}
+    <p className="text-sm">
+      <a href="https://github.com/debjitsen/BlockCertify" className="hover:text-white hover:underline transition">
+        GitHub Repository
+      </a>
+    </p>
+
+  </div>
+</footer>
     </div>
   );
 }
