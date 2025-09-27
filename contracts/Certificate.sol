@@ -23,7 +23,7 @@ contract BlockCertify is Ownable(msg.sender) {
 
     event universityAdded(address indexed uni, string uniName);
     event universityRemoved(address indexed uni, string uniName);
-    event addCertificate(string indexed certHash, string uniName);
+    event addCertificate(string indexed certHash, address uniAddress);
 
     modifier onlyUniversity() {
         require(
