@@ -55,7 +55,7 @@ export default function Home() {
 
           {/* Left Side */}
           <p className="text-sm">
-            Created By DEBJIT SEN | <a href="https://vortex-protfolio.vercel.app/" className="font-semibold text-white hover:underline transition">Hire Me</a>
+            Created By DEBJIT SEN | <a href="https://vortex-protfolio.vercel.app/" target="_blank" className="font-semibold text-white hover:underline transition">Hire Me</a>
           </p>
 
           {/* Center */}
@@ -65,7 +65,8 @@ export default function Home() {
 
           {/* Right Side */}
           <p className="text-sm">
-            <a href="https://github.com/debjitsen/BlockCertify" className="hover:text-white hover:underline transition">
+            <a href="https://github.com/debjitsen/BlockCertify" className="hover:text-white hover:underline transition"
+            target="_blank">
               GitHub Repository
             </a>
           </p>

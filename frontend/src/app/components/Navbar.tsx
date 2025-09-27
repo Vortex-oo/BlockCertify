@@ -8,7 +8,7 @@ const Navbar = () => {
 
             <div>
                 <h1 className='text-2xl font-bold tracking-widest'>
-                    BLOCK CERTIFY
+                    <Link href="/">BLOCK CERTIFY</Link>
                 </h1>
             </div>
 
