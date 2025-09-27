@@ -50,28 +50,28 @@ export default function Home() {
 
       </div>
 
- <footer className="w-full border-t border-gray-700 bg-black/30 mt-20 absolute bottom-0">
-  <div className="container mx-auto flex flex-col md:flex-row items-center justify-between gap-4 py-6 px-8 text-gray-400">
-    
-    {/* Left Side */}
-    <p className="text-sm">
-      Created By DEBJIT SEN | <a href="https://vortex-protfolio.vercel.app/" className="font-semibold text-white hover:underline transition">Hire Me</a>
-    </p>
-    
-    {/* Center */}
-    <p className="text-sm">
-      &copy; {new Date().getFullYear()} BlockCertify. All rights reserved.
-    </p>
-    
-    {/* Right Side */}
-    <p className="text-sm">
-      <a href="https://github.com/debjitsen/BlockCertify" className="hover:text-white hover:underline transition">
-        GitHub Repository
-      </a>
-    </p>
+      <footer className="w-full border-t border-gray-700 bg-black/30 mt-20 absolute bottom-0">
+        <div className="container mx-auto flex flex-col md:flex-row items-center justify-between gap-4 py-6 px-8 text-gray-400">
 
-  </div>
-</footer>
+          {/* Left Side */}
+          <p className="text-sm">
+            Created By DEBJIT SEN | <a href="https://vortex-protfolio.vercel.app/" className="font-semibold text-white hover:underline transition">Hire Me</a>
+          </p>
+
+          {/* Center */}
+          <p className="text-sm">
+            &copy; {new Date().getFullYear()} BlockCertify. All rights reserved.
+          </p>
+
+          {/* Right Side */}
+          <p className="text-sm">
+            <a href="https://github.com/debjitsen/BlockCertify" className="hover:text-white hover:underline transition">
+              GitHub Repository
+            </a>
+          </p>
+
+        </div>
+      </footer>
     </div>
   );
 }
