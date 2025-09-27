@@ -21,9 +21,9 @@ contract BlockCertify is Ownable(msg.sender) {
     mapping(address => University) universities;
     mapping(string => Certificate) certificates; //Certificate => certHash(created in the backend)
 
-    event universityAdded(address indexed uni, string name);
-    event universityRemoved(address indexed uni, string name);
-    event addCertificate(string indexed certHash, address uni);
+    event universityAdded(address indexed uni, string uniName);
+    event universityRemoved(address indexed uni, string uniName);
+    event addCertificate(string indexed certHash, string uniName);
 
     modifier onlyUniversity() {
         require(
