@@ -16,10 +16,10 @@ const Navbar = () => {
                 <Link href='/' className='font-bold border-4 border-teal-900 rounded-2xl cursor-pointer text-white  hover:bg-teal-900 hover:text-white py-2 px-6 hover:rounded-full transition-all duration-300  hover:scale-105 hover:border-white'>
                     Home
                 </Link>
-                <Link href='/create/create-certificate' className='font-bold border-4 border-orange-400 rounded-2xl cursor-pointer text-white  hover:bg-orange-400 hover:text-black py-2 px-6 hover:rounded-full transition-all duration-300  hover:scale-105 hover:border-white'>
+                <Link href='/university-flow/university-dashboard' className='font-bold border-4 border-orange-400 rounded-2xl cursor-pointer text-white  hover:bg-orange-400 hover:text-black py-2 px-6 hover:rounded-full transition-all duration-300  hover:scale-105 hover:border-white'>
                     Create
                 </Link>
-                <Link href='/create/verify-certificate' className='font-bold border-4 border-green-700 rounded-2xl cursor-pointer text-white  hover:bg-green-500 hover:text-black py-2 px-6 hover:rounded-full transition-all duration-300  hover:scale-105 hover:border-white'>
+                <Link href='/verify-cert' className='font-bold border-4 border-green-700 rounded-2xl cursor-pointer text-white  hover:bg-green-500 hover:text-black py-2 px-6 hover:rounded-full transition-all duration-300  hover:scale-105 hover:border-white'>
                     Verify
                 </Link>
             </div>
