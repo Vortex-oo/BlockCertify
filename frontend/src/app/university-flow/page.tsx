@@ -321,7 +321,7 @@ const VerificationPage = () => {
             } catch (error) {
                 console.error("Error verifying university:", error);
                 toast.error("Error verifying university. Please try again.");
-                setTimeout(() => router.push('/'), 3000);
+                setTimeout(() => router.push('/'), 10000);
             }
         };
 
