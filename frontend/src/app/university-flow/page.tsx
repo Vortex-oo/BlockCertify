@@ -311,12 +311,12 @@ const VerificationPage = () => {
                     });
                     setTimeout(() => {
                         router.push('/university-flow/university-dashboard');
-                    }, 2000);
+                    }, 1000);
                 } else {
                     toast.error("Verification Failed", {
                         description: "The connected wallet is not registered as a university.",
                     });
-                    setTimeout(() => router.push('/university-flow/verify-university'), 2000); // Redirect non-unis back home
+                    setTimeout(() => router.push('/university-flow/verify-university'), 1000); // Redirect non-unis back home
                 }
             } catch (error) {
                 console.error("Error verifying university:", error);
@@ -329,7 +329,7 @@ const VerificationPage = () => {
     }, [router]);
 
     return (
-        <div className="min-h-screen flex flex-col items-center justify-center bg-gray-900 text-white p-4">
+        <div className="min-h-screen flex flex-col items-center justify-center bg-black text-white p-4">
             <div className="flex flex-col items-center text-center">
                 <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-500 mb-6"></div>
                 <h2 className="text-2xl font-bold mb-2">Verifying University Status...</h2>
