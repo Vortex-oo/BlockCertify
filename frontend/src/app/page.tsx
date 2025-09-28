@@ -13,44 +13,43 @@ const anton = Anton({
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-black text-sky-500 flex flex-col items-center justify-center p-10">
+    <div className="min-h-screen bg-black text-sky-500 flex flex-col justify-between p-10">
+      <main className="flex-grow flex items-center justify-center">
+        <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          {/* Left Side (Title and Text) */}
+          <div className="flex flex-col gap-8">
+            <h1 className="font-sans italic font-extrabold text-9xl tracking-widest text-white">
+              BLOCK- <br /> CERTIFY
+            </h1>
+            <div className="font-mono text-white max-w-2xl">
+              <p className="text-lg">
+                BlockCertify is a blockchain-based platform for secure certificate generation and verification. Universities and institutions can issue certificates that are stored on the Ethereum blockchain, making them tamper-proof, transparent, and easily verifiable anywhere in the world.
+              </p>
+            </div>
+          </div>
 
-      {/* Title */}
-      <h1 className="font-sans italic font-extrabold text-9xl mb-16 tracking-widest absolute left-14 top-32">
-        BLOCK- <br /> CERTIFY
-      </h1>
+          {/* Right Side (Buttons) */}
+          <div className="flex justify-center md:justify-end">
+            <div className="flex flex-col items-center gap-10">
+              <Link
+                href="/university-flow"
+                className="font-mono text-5xl border-2 border-orange-500 text-orange-500 px-16 py-6 rounded-2xl text-center font-bold hover:bg-orange-500 hover:text-black transition w-full"
+              >
+                Add Your University
+              </Link>
 
-      <div className="flex flex-col md:flex-row gap-12 items-center">
-
-        {/* Left Side (Card Text) */}
-        <div className="font-mono w-2xl absolute left-16 top-96 text-white">
-          <p className="text-lg">
-            BlockCertify is a blockchain-based platform for secure certificate generation and verification. Universities and institutions can issue certificates that are stored on the Ethereum blockchain, making them tamper-proof, transparent, and easily verifiable anywhere in the world.
-          </p>
-        </div>
-
-        {/* Right Side (Buttons) */}
-        <div className="absolute right-16 top-48">
-          <div className="flex flex-col items-center gap-10 ">
-            <Link
-              href="/create"
-              className=" font-mono text-5xl border-2 border-orange-500 text-orange-500 px-16 py-6 rounded-2xl text-center  font-bold hover:bg-orange-500 hover:text-black transition w-full"
-            >
-              Add Your University
-            </Link>
-
-            <Link
-              href="/verify"
-              className=" font-mono text-5xl border-2 border-fuchsia-500 text-fuchsia-500 px-10 py-6 rounded-2xl text-center  font-bold hover:bg-fuchsia-500 hover:text-black transition w-full"
-            >
-              Verify Your Certificate
-            </Link>
+              <Link
+                href="/verify"
+                className="font-mono text-5xl border-2 border-fuchsia-500 text-fuchsia-500 px-10 py-6 rounded-2xl text-center font-bold hover:bg-fuchsia-500 hover:text-black transition w-full"
+              >
+                Verify Your Certificate
+              </Link>
+            </div>
           </div>
         </div>
+      </main>
 
-      </div>
-
-      <footer className="w-full border-t border-gray-700 bg-black/30 mt-20 absolute bottom-0">
+      <footer className="w-full border-t border-gray-700 bg-black/30">
         <div className="container mx-auto flex flex-col md:flex-row items-center justify-between gap-4 py-6 px-8 text-gray-400">
 
           {/* Left Side */}
