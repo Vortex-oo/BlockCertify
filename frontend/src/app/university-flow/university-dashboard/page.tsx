@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { ethers } from "ethers";
 import { toast } from "sonner";
 import jsPDF from 'jspdf';
@@ -299,7 +298,6 @@ const CreateCertificatePage = () => {
     const [score, setScore] = useState('');
 
     const [isLoading, setIsLoading] = useState(false);
-    const router = useRouter();
 
     const generatePdf = (hash: string) => {
         const doc = new jsPDF();
