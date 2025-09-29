@@ -8,6 +8,10 @@ describe("BlockCertify", function () {
 
     beforeEach(async function () {
         [owner, university, otherUniversity, student] = await ethers.getSigners();
+        // console.log("Owner address:", owner.address);
+        // console.log("University address:", university.address);
+        // console.log("Other University address:", otherUniversity.address);
+        // console.log("Student address:", student.address);
 
         // Deploy contract
         BlockCertify = await ethers.getContractFactory("BlockCertify");
