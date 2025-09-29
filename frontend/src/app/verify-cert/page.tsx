@@ -6,7 +6,7 @@ import { toast } from "sonner";
 // Add type declaration for window.ethereum
 declare global {
     interface Window {
-        ethereum?: any;
+        ethereum?: ethers.Eip1193Provider;
     }
 }
 
