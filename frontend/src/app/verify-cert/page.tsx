@@ -10,7 +10,7 @@ declare global {
     }
 }
 
-// Your contractABI remains the same...
+// contractABI and types remain the same...
 const contractABI = [
     {
         "inputs": [
@@ -274,6 +274,7 @@ const contractABI = [
     }
 ]
 
+
 // A type for the certificate structure
 type Certificate = {
     studentName: string;
@@ -361,25 +362,27 @@ const VerifyPdfPage = () => {
     };
 
     return (
-        <div className='min-h-screen bg-black text-sky-500 flex flex-col items-center pt-28 px-4'>
-            <h1 className='font-sans italic font-extrabold text-4xl md:text-6xl mb-12 tracking-widest text-center'>
+        <div className='min-h-screen bg-black text-sky-500 flex flex-col items-center pt-24 px-4 sm:px-6 md:px-8'>
+            {/* Heading */}
+            <h1 className='font-sans italic font-extrabold text-3xl sm:text-4xl md:text-6xl mb-10 tracking-widest text-center'>
                 Verify Certificate
             </h1>
 
-            <div className="w-full max-w-2xl bg-gray-900/50 border border-sky-900 rounded-lg p-8 shadow-2xl shadow-sky-900/20">
+            {/* Upload Form */}
+            <div className="w-full max-w-xl bg-gray-900/50 border border-sky-900 rounded-lg p-6 sm:p-8 shadow-2xl shadow-sky-900/20">
                 <form onSubmit={handleVerify} className="flex flex-col gap-4">
-                    <label htmlFor="pdf-upload" className="font-bold text-lg mb-2">Upload Certificate PDF</label>
+                    <label htmlFor="pdf-upload" className="font-bold text-base sm:text-lg mb-1">Upload Certificate PDF</label>
                     <input
                         id="pdf-upload"
                         type="file"
                         accept="application/pdf"
                         onChange={handleFileChange}
-                        className="file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-sky-900 file:text-sky-300 hover:file:bg-sky-800 text-gray-400"
+                        className="file:mr-3 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs sm:file:text-sm file:font-semibold file:bg-sky-900 file:text-sky-300 hover:file:bg-sky-800 text-gray-400 w-full"
                         disabled={isLoading}
                     />
                     <button
                         type="submit"
-                        className="bg-sky-500 text-black font-bold px-8 py-3 rounded-md hover:bg-sky-600 transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed mt-4 cursor-pointer"
+                        className="bg-sky-500 text-black font-bold px-6 sm:px-8 py-3 rounded-md hover:bg-sky-600 transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed mt-3 sm:mt-4 cursor-pointer text-sm sm:text-base"
                         disabled={isLoading || !selectedFile}
                     >
                         {isLoading ? 'Verifying...' : 'Verify PDF'}
@@ -388,28 +391,28 @@ const VerifyPdfPage = () => {
             </div>
 
             {/* Results Section */}
-            <div className="w-full max-w-2xl mt-8">
+            <div className="w-full max-w-xl mt-8 px-2">
                 {isLoading && (
                     <div className="flex justify-center items-center">
-                        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-sky-500"></div>
+                        <div className="animate-spin rounded-full h-10 w-10 sm:h-12 sm:w-12 border-t-2 border-b-2 border-sky-500"></div>
                     </div>
                 )}
 
                 {searched && !isLoading && (
                     isValid && certificateInfo ? (
-                        <div className="bg-green-900/50 border border-green-500 text-white rounded-lg p-6 animate-fade-in">
-                            <h3 className="text-2xl font-bold text-green-400 mb-4">Certificate is Valid ✅</h3>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 font-mono">
+                        <div className="bg-green-900/50 border border-green-500 text-white rounded-lg p-5 sm:p-6 animate-fade-in">
+                            <h3 className="text-xl sm:text-2xl font-bold text-green-400 mb-3 sm:mb-4 text-center sm:text-left">Certificate is Valid ✅</h3>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 font-mono text-sm sm:text-base">
                                 <p><strong>Student:</strong> {certificateInfo.studentName}</p>
                                 <p><strong>Course:</strong> {certificateInfo.courseName}</p>
                                 <p><strong>University:</strong> {certificateInfo.university}</p>
                                 <p><strong>Issued On:</strong> {new Date(Number(certificateInfo.issueDate) * 1000).toLocaleDateString()}</p>
-                                <p className="md:col-span-2"><strong>Hash:</strong> <span className="break-all text-xs">{certificateInfo.certHash}</span></p>
+                                <p className="sm:col-span-2"><strong>Hash:</strong> <span className="break-all text-xs">{certificateInfo.certHash}</span></p>
                             </div>
                         </div>
                     ) : (
-                        <div className="bg-red-900/50 border border-red-500 text-white rounded-lg p-6 text-center animate-fade-in">
-                            <h3 className="text-2xl font-bold text-red-400">Certificate Not Found or Invalid ❌</h3>
+                        <div className="bg-red-900/50 border border-red-500 text-white rounded-lg p-5 sm:p-6 text-center animate-fade-in">
+                            <h3 className="text-xl sm:text-2xl font-bold text-red-400">Certificate Not Found or Invalid ❌</h3>
                         </div>
                     )
                 )}
