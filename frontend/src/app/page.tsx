@@ -11,7 +11,7 @@ const anton = Anton({
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-black text-sky-500 flex flex-col justify-between relative">
+    <div className={`${anton.variable} min-h-screen bg-black text-sky-500 flex flex-col justify-between relative`}>
       
       {/* Title + Summary */}
       <div className="px-6 sm:px-12 mt-24 sm:mt-44 md:pr-[40%]">

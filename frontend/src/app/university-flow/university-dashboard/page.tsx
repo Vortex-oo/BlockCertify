@@ -5,6 +5,7 @@ import { ethers } from "ethers";
 import { toast } from "sonner";
 import jsPDF from 'jspdf';
 import { Anton } from 'next/font/google';
+import { contractABI, contractAddress } from '@/lib/web3-constants';
 
 // --- SETUP ---
 
@@ -13,271 +14,6 @@ const anton = Anton({
     subsets: ["latin"],
     weight: ['400']
 });
-
-const contractABI = [
-    {
-        "inputs": [
-            {
-                "internalType": "address",
-                "name": "owner",
-                "type": "address"
-            }
-        ],
-        "name": "OwnableInvalidOwner",
-        "type": "error"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "address",
-                "name": "account",
-                "type": "address"
-            }
-        ],
-        "name": "OwnableUnauthorizedAccount",
-        "type": "error"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": true,
-                "internalType": "address",
-                "name": "previousOwner",
-                "type": "address"
-            },
-            {
-                "indexed": true,
-                "internalType": "address",
-                "name": "newOwner",
-                "type": "address"
-            }
-        ],
-        "name": "OwnershipTransferred",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": true,
-                "internalType": "string",
-                "name": "certHash",
-                "type": "string"
-            },
-            {
-                "indexed": false,
-                "internalType": "address",
-                "name": "uniAddress",
-                "type": "address"
-            }
-        ],
-        "name": "addCertificate",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": true,
-                "internalType": "address",
-                "name": "uni",
-                "type": "address"
-            },
-            {
-                "indexed": false,
-                "internalType": "string",
-                "name": "uniName",
-                "type": "string"
-            }
-        ],
-        "name": "universityAdded",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": true,
-                "internalType": "address",
-                "name": "uni",
-                "type": "address"
-            },
-            {
-                "indexed": false,
-                "internalType": "string",
-                "name": "uniName",
-                "type": "string"
-            }
-        ],
-        "name": "universityRemoved",
-        "type": "event"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "address",
-                "name": "_uni",
-                "type": "address"
-            },
-            {
-                "internalType": "string",
-                "name": "_uniName",
-                "type": "string"
-            }
-        ],
-        "name": "addUniversity",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "string",
-                "name": "_stdName",
-                "type": "string"
-            },
-            {
-                "internalType": "string",
-                "name": "_courseName",
-                "type": "string"
-            },
-            {
-                "internalType": "string",
-                "name": "_certHash",
-                "type": "string"
-            }
-        ],
-        "name": "createCertificates",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "address",
-                "name": "_uni",
-                "type": "address"
-            }
-        ],
-        "name": "isUniversity",
-        "outputs": [
-            {
-                "internalType": "bool",
-                "name": "",
-                "type": "bool"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "owner",
-        "outputs": [
-            {
-                "internalType": "address",
-                "name": "",
-                "type": "address"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "address",
-                "name": "_uni",
-                "type": "address"
-            }
-        ],
-        "name": "removeUniversity",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "renounceOwnership",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "address",
-                "name": "newOwner",
-                "type": "address"
-            }
-        ],
-        "name": "transferOwnership",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "string",
-                "name": "_certHash",
-                "type": "string"
-            }
-        ],
-        "name": "verifyCertificate",
-        "outputs": [
-            {
-                "internalType": "bool",
-                "name": "",
-                "type": "bool"
-            },
-            {
-                "components": [
-                    {
-                        "internalType": "string",
-                        "name": "studentName",
-                        "type": "string"
-                    },
-                    {
-                        "internalType": "string",
-                        "name": "courseName",
-                        "type": "string"
-                    },
-                    {
-                        "internalType": "string",
-                        "name": "certHash",
-                        "type": "string"
-                    },
-                    {
-                        "internalType": "uint256",
-                        "name": "issueDate",
-                        "type": "uint256"
-                    },
-                    {
-                        "internalType": "string",
-                        "name": "university",
-                        "type": "string"
-                    },
-                    {
-                        "internalType": "bool",
-                        "name": "isValid",
-                        "type": "bool"
-                    }
-                ],
-                "internalType": "struct BlockCertify.Certificate",
-                "name": "",
-                "type": "tuple"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    }
-]
-
-const contractAddress = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS as string;
 
 async function generateHash(data: string): Promise<string> {
     const encoder = new TextEncoder();
@@ -363,14 +99,15 @@ const CreateCertificatePage = () => {
 
             toast.promise(tx.wait(), {
                 loading: "Submitting certificate to the blockchain...",
-                success: (receipt: any) => {
+                success: (receipt: ethers.TransactionReceipt) => {
                     generatePdf(generatedHash);
                     return `Certificate created successfully! Tx: ${receipt.hash.slice(0, 10)}...`;
                 },
-                error: (err: any) => `Failed to create certificate: ${err.message}`
+                error: (err: Error) => `Failed to create certificate: ${err.message}`
             });
-        } catch (error: any) {
-            toast.error("Operation failed", { description: error.message });
+        } catch (error) {
+            const errorMessage = error instanceof Error ? error.message : "An unknown error occurred.";
+            toast.error("Operation failed", { description: errorMessage });
         } finally {
             setIsLoading(false);
         }

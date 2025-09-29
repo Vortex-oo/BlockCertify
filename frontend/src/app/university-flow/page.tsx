@@ -8,7 +8,7 @@ import { toast } from "sonner";
 
 declare global {
     interface Window {
-        ethereum?: any;
+        ethereum?: ethers.Eip1193Provider;
     }
 }
 

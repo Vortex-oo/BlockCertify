@@ -352,9 +352,10 @@ const VerifyPdfPage = () => {
             if (isCertValid) {
                 setCertificateInfo(certDetails);
             }
-        } catch (error: any) {
+        } catch (error) {
             console.error("Verification failed:", error);
-            toast.error("Verification Failed", { description: error.message || "Could not connect to the contract." });
+            const errorMessage = error instanceof Error ? error.message : "Could not connect to the contract.";
+            toast.error("Verification Failed", { description: errorMessage });
         } finally {
             setIsLoading(false);
             setSearched(true);
