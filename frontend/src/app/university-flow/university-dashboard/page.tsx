@@ -10,9 +10,9 @@ import { Anton } from 'next/font/google';
 // --- SETUP ---
 
 const anton = Anton({
-  variable: "--font-anton",
-  subsets: ["latin"],
-  weight: ['400']
+    variable: "--font-anton",
+    subsets: ["latin"],
+    weight: ['400']
 });
 
 const contractABI = [
@@ -297,13 +297,13 @@ const CreateCertificatePage = () => {
     const [universityName, setUniversityName] = useState('');
     const [timePeriod, setTimePeriod] = useState('');
     const [score, setScore] = useState('');
-    
+
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
 
     const generatePdf = (hash: string) => {
         const doc = new jsPDF();
-        
+
         doc.setFontSize(22);
         doc.text("Certificate of Completion", 105, 30, { align: 'center' });
 
@@ -321,7 +321,7 @@ const CreateCertificatePage = () => {
         doc.setFontSize(18);
         doc.setFont('helvetica', 'bold');
         doc.text(courseName, 105, 110, { align: 'center' });
-        
+
         doc.setFontSize(14);
         doc.text(`With a score of: ${score}`, 105, 125, { align: 'center' });
 
@@ -355,14 +355,14 @@ const CreateCertificatePage = () => {
         try {
             const dataToHash = studentName + courseName + universityName + timePeriod + score;
             const generatedHash = await generateHash(dataToHash);
-            
+
             const provider = new ethers.BrowserProvider(window.ethereum);
             await provider.send("eth_requestAccounts", []);
             const signer = await provider.getSigner();
             const contract = new ethers.Contract(contractAddress, contractABI, signer);
-            
+
             const tx = await contract.createCertificates(studentName, courseName, generatedHash);
-            
+
             toast.promise(tx.wait(), {
                 loading: "Submitting certificate to the blockchain...",
                 success: (receipt: any) => {
@@ -399,11 +399,11 @@ const CreateCertificatePage = () => {
                         <label className="block mb-2 font-mono">University Name</label>
                         <input type="text" value={universityName} onChange={(e) => setUniversityName(e.target.value)} className="w-full p-3 bg-gray-800 rounded-lg border border-sky-700 focus:ring-2 focus:ring-fuchsia-500 focus:outline-none" />
                     </div>
-                     <div>
+                    <div>
                         <label className="block mb-2 font-mono">Time Period (e.g., 2021-2025)</label>
                         <input type="text" value={timePeriod} onChange={(e) => setTimePeriod(e.target.value)} className="w-full p-3 bg-gray-800 rounded-lg border border-sky-700 focus:ring-2 focus:ring-fuchsia-500 focus:outline-none" />
                     </div>
-                     <div className="md:col-span-2">
+                    <div className="md:col-span-2">
                         <label className="block mb-2 font-mono">Score / Grade</label>
                         <input type="text" value={score} onChange={(e) => setScore(e.target.value)} className="w-full p-3 bg-gray-800 rounded-lg border border-sky-700 focus:ring-2 focus:ring-fuchsia-500 focus:outline-none" />
                     </div>
