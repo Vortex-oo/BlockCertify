@@ -1,14 +1,13 @@
-import * as dotenv from "dotenv";
-dotenv.config();
-
-
 import type { HardhatUserConfig } from "hardhat/config";
+import "@nomicfoundation/hardhat-toolbox-viem";
+import "@nomicfoundation/hardhat-ethers/types";
+import "@nomicfoundation/hardhat-ethers";
+import "@nomicfoundation/hardhat-toolbox-mocha-ethers";
+import "dotenv/config";
 
-import hardhatToolboxMochaEthersPlugin from "@nomicfoundation/hardhat-toolbox-mocha-ethers";
-import { configVariable } from "hardhat/config";
+const PRIVATE_KEY = process.env.PRIVATE_KEY || "";
 
 const config: HardhatUserConfig = {
-  plugins: [hardhatToolboxMochaEthersPlugin],
   solidity: {
     profiles: {
       default: {
@@ -26,20 +25,22 @@ const config: HardhatUserConfig = {
     },
   },
   networks: {
-    
-    hardhatMainnet: {
-      type: "edr-simulated",
-      chainType: "l1",
+    // This network is now the default automatically because it's named "hardhat"
+    hardhat: {
+      url: "http://127.0.0.1:8545",
+      chainId: 31337,
+      type: "http",
     },
-    hardhatOp: {
-      type: "edr-simulated",
-      chainType: "op",
+    localhost: {
+      url: "http://127.0.0.1:8545",
+      chainId: 31337,
+      type: "http",
     },
     sepolia: {
+      url: process.env.INFURA_SEPOLIA_URL || "",
+      accounts: PRIVATE_KEY ? [PRIVATE_KEY] : [],
+      chainId: 11155111,
       type: "http",
-      chainType: "l1",
-      url: configVariable("INFURA_SEPOLIA_URL"),
-      accounts: [configVariable("PRIVATE_KEY")],
     },
   },
 };

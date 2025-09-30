@@ -1,27 +1,37 @@
-
-import { network } from "hardhat";
-
-const { ethers } = await network.connect();
+import { ethers } from "hardhat";
 
 async function main() {
 
     const [deployer] = await ethers.getSigners();
 
+    console.log("------------------------------------------");
     console.log("Deploying contracts with the account:", deployer.address);
+    // Get the current balance of the deployer
+    console.log(
+        "Account balance:",
+        (await ethers.provider.getBalance(deployer.address)).toString(),
+        "wei"
+    );
+    console.log("------------------------------------------");
 
     const BlockCertify = await ethers.getContractFactory("BlockCertify");
+
+    // Deploy the contract
+    console.log("Deploying BlockCertify contract...");
     const blockCertify = await BlockCertify.deploy();
 
-    console.log("BlockCertify deployed to:", await blockCertify.getAddress());
+    await blockCertify.waitForDeployment();
+    console.log("Deployment transaction confirmed!");
 
+    // Get the deployed contract address
+    const deployedAddress = await blockCertify.getAddress();
+    console.log("BlockCertify deployed to:", deployedAddress);
+    console.log("------------------------------------------");
 }
-main().
-    then(() => process.exit(0))
+
+main()
+    .then(() => process.exit(0))
     .catch((error) => {
-        console.error(error);
+        console.error("Deployment failed:", error);
         process.exit(1);
     });
-
-
-//Deploying contracts with the account: 0x9eDa49590C5e99be8236984D2B6C7390D1dad312
-//BlockCertify deployed to: 0xF054B3Ff4C3200a440085a0dFf3A32C738F6e191
