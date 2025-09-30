@@ -295,6 +295,7 @@ const VerificationPage = () => {
                 await provider.send("eth_requestAccounts", []); // Prompt user to connect
                 const signer = await provider.getSigner();
                 const contractAddress = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS as string;
+                console.log("Contract Address from ENV:", process.env.NEXT_PUBLIC_CONTRACT_ADDRESS);
 
                 if (!contractAddress) {
                     toast.error("Configuration Error", { description: "Contract address not set." });
@@ -303,7 +304,24 @@ const VerificationPage = () => {
 
                 const contract = new ethers.Contract(contractAddress, contractABI, signer);
                 const signerAddress = await signer.getAddress();
+                console.log("Signer Address:", signerAddress);
+
+
+                
+                // -------------------------------------------
+                //log for error checking
+
+                console.log("Contract Address:", contractAddress);
+                const code = await provider.getCode(contractAddress);
+                console.log("Deployed Code:", code);
+
+                const network = await provider.getNetwork();
+                console.log("Connected Network:", network);
+
+                // -------------------------------------------
+
                 const isUni = await contract.isUniversity(signerAddress);
+                console.log("isUniversity result:", isUni);
 
                 if (isUni) {
                     toast.success("University Verified!", {
