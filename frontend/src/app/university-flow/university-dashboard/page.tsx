@@ -40,6 +40,10 @@ const CreateCertificatePage = () => {
     const generatePdf = (hash: string) => {
         const doc = new jsPDF();
 
+        doc.setProperties({
+            subject: hash,
+        });
+
         doc.setFontSize(22);
         doc.text("Certificate of Completion", 105, 30, { align: 'center' });
 
@@ -91,6 +95,8 @@ const CreateCertificatePage = () => {
         try {
             const dataToHash = studentName + courseName + universityName + timePeriod + score;
             const generatedHash = await generateHash(dataToHash);
+            // console.log("Generated Hash (Create):", generatedHash);
+
 
             const provider = new ethers.BrowserProvider(window.ethereum);
             await provider.send("eth_requestAccounts", []);

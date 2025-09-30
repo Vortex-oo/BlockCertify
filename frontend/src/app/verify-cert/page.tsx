@@ -1,17 +1,17 @@
 'use client';
+
 import React, { useState } from 'react';
 import { ethers } from "ethers";
 import { toast } from "sonner";
 import { blockCertifyAbi } from '@/lib/abi';
+import { PDFDocument } from 'pdf-lib';
 
-// Add type declaration for window.ethereum
 declare global {
     interface Window {
         ethereum?: ethers.Eip1193Provider;
     }
 }
 
-// A type for the certificate structure
 type Certificate = {
     studentName: string;
     courseName: string;
@@ -20,13 +20,6 @@ type Certificate = {
     university: string;
     isValid: boolean;
 };
-
-// Helper function to convert an ArrayBuffer to a hex string
-function bufferToHex(buffer: ArrayBuffer): string {
-    return [...new Uint8Array(buffer)]
-        .map(b => b.toString(16).padStart(2, '0'))
-        .join('');
-}
 
 const VerifyPdfPage = () => {
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -64,15 +57,18 @@ const VerifyPdfPage = () => {
         }
 
         try {
-            // Step 1: Hash the PDF file in the browser
-            toast.info("Generating hash from PDF...");
+            toast.info("Reading PDF and extracting hash...");
+
             const arrayBuffer = await selectedFile.arrayBuffer();
-            const hashBuffer = await window.crypto.subtle.digest('SHA-256', arrayBuffer);
-            const generatedHash = bufferToHex(hashBuffer);
+            const pdfDoc = await PDFDocument.load(arrayBuffer);
+            const extractedHash = pdfDoc.getSubject();
 
-            toast.success("Hash generated successfully!");
+            if (!extractedHash) {
+                throw new Error("Could not find a verification hash in the PDF metadata.");
+            }
+            
+            toast.success("Hash extracted successfully!");
 
-            // Step 2: Use the hash to call the smart contract
             const provider = new ethers.BrowserProvider(window.ethereum);
             const contractAddress = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS as string;
 
@@ -81,17 +77,15 @@ const VerifyPdfPage = () => {
             }
 
             const contract = new ethers.Contract(contractAddress, blockCertifyAbi, provider);
-
-            const [isCertValid, certDetails] = await contract.verifyCertificate(generatedHash);
+            const [isCertValid, certDetails] = await contract.verifyCertificate(extractedHash);
 
             setIsValid(isCertValid);
             if (isCertValid) {
                 setCertificateInfo(certDetails);
             }
-        } catch (error) {
+        } catch (error: any) {
             console.error("Verification failed:", error);
-            const errorMessage = error instanceof Error ? error.message : "Could not connect to the contract.";
-            toast.error("Verification Failed", { description: errorMessage });
+            toast.error("Verification Failed", { description: error.message });
         } finally {
             setIsLoading(false);
             setSearched(true);
@@ -100,12 +94,10 @@ const VerifyPdfPage = () => {
 
     return (
         <div className='min-h-screen bg-black text-sky-500 flex flex-col items-center pt-24 px-4 sm:px-6 md:px-8'>
-            {/* Heading */}
             <h1 className='font-sans italic font-extrabold text-3xl sm:text-4xl md:text-6xl mb-10 tracking-widest text-center'>
                 Verify Certificate
             </h1>
 
-            {/* Upload Form */}
             <div className="w-full max-w-xl bg-gray-900/50 border border-sky-900 rounded-lg p-6 sm:p-8 shadow-2xl shadow-sky-900/20">
                 <form onSubmit={handleVerify} className="flex flex-col gap-4">
                     <label htmlFor="pdf-upload" className="font-bold text-base sm:text-lg mb-1">Upload Certificate PDF</label>
@@ -127,7 +119,6 @@ const VerifyPdfPage = () => {
                 </form>
             </div>
 
-            {/* Results Section */}
             <div className="w-full max-w-xl mt-8 px-2">
                 {isLoading && (
                     <div className="flex justify-center items-center">
