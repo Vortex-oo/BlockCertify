@@ -83,9 +83,10 @@ const VerifyPdfPage = () => {
             if (isCertValid) {
                 setCertificateInfo(certDetails);
             }
-        } catch (error: any) {
+        } catch (error: unknown) {
             console.error("Verification failed:", error);
-            toast.error("Verification Failed", { description: error.message });
+            const errorMessage = error instanceof Error ? error.message : "An unknown error occurred.";
+            toast.error("Verification Failed", { description: errorMessage });
         } finally {
             setIsLoading(false);
             setSearched(true);
