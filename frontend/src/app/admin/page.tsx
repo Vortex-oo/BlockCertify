@@ -110,16 +110,21 @@ const AdminPage = () => {
             setUniName("");
             setUniAddress("");
 
-        } catch (error: any) {
+        } catch (error) {
             console.error("Transaction failed:", error);
-            let description = "An error occurred while sending the transaction.";
-            if (typeof error === 'object' && error !== null && 'reason' in error && typeof (error as { reason: unknown }).reason === 'string') {
-                description = (error as { reason: string }).reason;
-            } else if (error instanceof Error) {
-                description = error.message;
+            let errorMessage = "An unexpected error occurred.";
+
+            // Safely check if the error is an object with a 'reason' or 'message' property
+            if (error && typeof error === 'object') {
+                if ('reason' in error && typeof error.reason === 'string') {
+                    errorMessage = error.reason; // For Ethers-specific errors
+                } else if ('message' in error && typeof error.message === 'string') {
+                    errorMessage = error.message; // For standard errors
+                }
             }
+
             toast.error("Transaction Failed", {
-                description: description,
+                description: errorMessage,
             });
         } finally {
             setIsLoading(false);
