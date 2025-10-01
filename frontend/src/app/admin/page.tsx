@@ -2,9 +2,18 @@
 
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ethers } from "ethers";
+// Import the Eip1193Provider type from ethers
+import { ethers, Eip1193Provider } from "ethers";
 import { toast } from "sonner";
-import { blockCertifyAbi } from '@/lib/abi'; // Assuming your ABI is correctly imported
+import { blockCertifyAbi } from '@/lib/abi';
+
+// --- TYPE DECLARATION ---
+// This teaches TypeScript that window.ethereum can exist and what its type is.
+declare global {
+    interface Window {
+        ethereum?: Eip1193Provider;
+    }
+}
 
 const AdminPage = () => {
     const router = useRouter();
@@ -77,12 +86,20 @@ const AdminPage = () => {
             toast.error("Invalid Address", { description: "The provided university address is not a valid Ethereum address." });
             return;
         }
+        
+        // Add a check for window.ethereum here as well for safety
+        if (!window.ethereum) {
+            toast.error("MetaMask not detected. Please connect your wallet.");
+            return;
+        }
 
         setIsLoading(true);
         toast.info("Submitting transaction...", { description: "Please confirm in your wallet." });
 
         try {
-            const provider = new ethers.BrowserProvider(window.ethereum as any);
+            // --- FIXED LINE ---
+            // No more 'as any' is needed because we defined the type above.
+            const provider = new ethers.BrowserProvider(window.ethereum);
             const signer = await provider.getSigner();
             const contractAddress = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS as string;
 
@@ -94,19 +111,16 @@ const AdminPage = () => {
 
             const contract = new ethers.Contract(contractAddress, blockCertifyAbi, signer);
 
-            // Call the smart contract function
             const tx = await contract.addUniversity(uniAddress, uniName);
 
             toast.info("Processing transaction...", { description: "Waiting for blockchain confirmation." });
-
-            // Wait for the transaction to be mined
+            
             await tx.wait();
 
             toast.success("University Added Successfully!", {
                 description: `${uniName} has been registered on the contract.`,
             });
-
-            // Reset form fields
+            
             setUniName("");
             setUniAddress("");
 
@@ -114,12 +128,11 @@ const AdminPage = () => {
             console.error("Transaction failed:", error);
             let errorMessage = "An unexpected error occurred.";
 
-            // Safely check if the error is an object with a 'reason' or 'message' property
             if (error && typeof error === 'object') {
                 if ('reason' in error && typeof error.reason === 'string') {
-                    errorMessage = error.reason; // For Ethers-specific errors
+                    errorMessage = error.reason;
                 } else if ('message' in error && typeof error.message === 'string') {
-                    errorMessage = error.message; // For standard errors
+                    errorMessage = error.message;
                 }
             }
 
