@@ -145,12 +145,12 @@ const AdminPage = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center pt-24">
-            <h1 className="text-4xl font-bold mb-8">Admin Panel</h1>
+        <div className="min-h-screen bg-black text-white flex flex-col items-center pt-24 font-mono">
+            <h1 className="text-5xl font-bold mb-8">Admin Panel</h1>
 
             {isVisible ? (
                 <form onSubmit={handleSubmit} className="w-full max-w-lg bg-gray-800 p-8 rounded-lg shadow-lg">
-                    <h2 className="text-2xl mb-6">Add New University</h2>
+                    <h2 className="text-3xl mb-6">Add New University</h2>
 
                     <div className="mb-4">
                         <label htmlFor="uniName" className="block mb-2 text-sm font-medium text-gray-300">University Name</label>

@@ -99,7 +99,7 @@ const VerifyPdfPage = () => {
                 Verify Certificate
             </h1>
 
-            <div className="w-full max-w-xl bg-gray-900/50 border border-sky-900 rounded-lg p-6 sm:p-8 shadow-2xl shadow-sky-900/20">
+            <div className="w-full max-w-xl bg-gray-900/50 border border-sky-900 rounded-lg p-6 sm:p-8 shadow-2xl shadow-sky-900/20 font-mono">
                 <form onSubmit={handleVerify} className="flex flex-col gap-4">
                     <label htmlFor="pdf-upload" className="font-bold text-base sm:text-lg mb-1">Upload Certificate PDF</label>
                     <input
