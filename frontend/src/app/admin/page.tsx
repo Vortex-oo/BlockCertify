@@ -33,7 +33,7 @@ const AdminPage = () => {
                 await provider.send("eth_requestAccounts", []);
                 const signer = await provider.getSigner();
                 const signerAddress = await signer.getAddress();
-                
+
                 const ownerAddress = process.env.NEXT_PUBLIC_OWNER_ADDRESS as string;
 
                 if (!ownerAddress) {
@@ -74,7 +74,7 @@ const AdminPage = () => {
         }
 
         if (!ethers.isAddress(uniAddress)) {
-            toast.error("Invalid Address", { description: "The provided university address is not a valid Ethereum address."});
+            toast.error("Invalid Address", { description: "The provided university address is not a valid Ethereum address." });
             return;
         }
 
@@ -82,38 +82,44 @@ const AdminPage = () => {
         toast.info("Submitting transaction...", { description: "Please confirm in your wallet." });
 
         try {
-            const provider = new ethers.BrowserProvider(window.ethereum);
+            const provider = new ethers.BrowserProvider(window.ethereum as any);
             const signer = await provider.getSigner();
             const contractAddress = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS as string;
-            
+
             if (!contractAddress) {
-                 toast.error("Configuration Error", { description: "Contract address not set." });
-                 setIsLoading(false);
-                 return;
+                toast.error("Configuration Error", { description: "Contract address not set." });
+                setIsLoading(false);
+                return;
             }
-            
+
             const contract = new ethers.Contract(contractAddress, blockCertifyAbi, signer);
 
             // Call the smart contract function
             const tx = await contract.addUniversity(uniAddress, uniName);
 
             toast.info("Processing transaction...", { description: "Waiting for blockchain confirmation." });
-            
+
             // Wait for the transaction to be mined
             await tx.wait();
 
             toast.success("University Added Successfully!", {
                 description: `${uniName} has been registered on the contract.`,
             });
-            
+
             // Reset form fields
             setUniName("");
             setUniAddress("");
 
         } catch (error: any) {
             console.error("Transaction failed:", error);
+            let description = "An error occurred while sending the transaction.";
+            if (typeof error === 'object' && error !== null && 'reason' in error && typeof (error as { reason: unknown }).reason === 'string') {
+                description = (error as { reason: string }).reason;
+            } else if (error instanceof Error) {
+                description = error.message;
+            }
             toast.error("Transaction Failed", {
-                description: error.reason || "An error occurred while sending the transaction.",
+                description: description,
             });
         } finally {
             setIsLoading(false);
@@ -123,11 +129,11 @@ const AdminPage = () => {
     return (
         <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center pt-24">
             <h1 className="text-4xl font-bold mb-8">Admin Panel</h1>
-            
+
             {isVisible ? (
                 <form onSubmit={handleSubmit} className="w-full max-w-lg bg-gray-800 p-8 rounded-lg shadow-lg">
                     <h2 className="text-2xl mb-6">Add New University</h2>
-                    
+
                     <div className="mb-4">
                         <label htmlFor="uniName" className="block mb-2 text-sm font-medium text-gray-300">University Name</label>
                         <input
