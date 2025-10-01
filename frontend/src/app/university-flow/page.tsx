@@ -44,16 +44,16 @@ const VerificationPage = () => {
                 console.log("Signer Address:", signerAddress);
 
 
-                
+
                 // -------------------------------------------
-                //log for error checking
+                // log for error checking
 
-                console.log("Contract Address:", contractAddress);
-                const code = await provider.getCode(contractAddress);
-                console.log("Deployed Code:", code);
+                // console.log("Contract Address:", contractAddress);
+                // const code = await provider.getCode(contractAddress);
+                // console.log("Deployed Code:", code);
 
-                const network = await provider.getNetwork();
-                console.log("Connected Network:", network);
+                // const network = await provider.getNetwork();
+                // console.log("Connected Network:", network);
 
                 // -------------------------------------------
 
