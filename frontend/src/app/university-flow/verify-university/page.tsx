@@ -6,25 +6,22 @@ import emailjs from '@emailjs/browser';
 import { useRouter } from 'next/navigation';
 import { Anton } from 'next/font/google';
 
-// --- SETUP ---
 const anton = Anton({
     variable: "--font-anton",
     subsets: ["latin"],
     weight: ['400']
 });
 
-// --- COMPONENT ---
 const UniversityDetailsPage = () => {
     const router = useRouter();
 
-    // State for form fields
     const [uniName, setUniName] = useState<string>("");
     const [uniWalletAddress, setUniWalletAddress] = useState<string>("");
     const [uniRegNumber, setUniRegNumber] = useState<string>("");
     const [universityContactEmail, setUniversityContactEmail] = useState<string>("");
-    const [uniPhysicalAddress, setUniPhysicalAddress] = useState<string>(""); // Renamed for clarity
+    const [uniPhysicalAddress, setUniPhysicalAddress] = useState<string>("");
 
-    // State for loading indicator
+
     const [isLoading, setIsLoading] = useState(false);
 
     const handleSubmit = async (e: React.FormEvent) => {
